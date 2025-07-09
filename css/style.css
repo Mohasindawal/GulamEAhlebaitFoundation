@@ -9193,7 +9193,6 @@ textarea.form-control {
 /* Target the button directly using its ID for maximum specificity */
 /* Refined Styling for the navbar's "Donate" button */
 #donateBtn {
-  
   height: 45px;
     /* Adjust font size */
     font-size: 14px !important; /* Slightly smaller font for a more compact look */
@@ -9273,6 +9272,8 @@ textarea.form-control {
     max-width: 500px; /* Maximum width for larger screens */
     position: relative; /* Needed for positioning the close button */
     text-align: center; /* Center text and images inside */
+    animation-name: animatetop;
+    animation-duration: 0.4s
 }
 
 /* The Close Button (the 'x') */
@@ -9291,7 +9292,10 @@ textarea.form-control {
     color: #333; /* Darker grey on hover */
     text-decoration: none;
 }
-
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
 /* QR Code Image Styling */
 .qr-image {
     max-width: 250px; /* Max width for the QR code image */

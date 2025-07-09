@@ -43,7 +43,7 @@
 // In your main.js file, find this section:
 var carousel = function() {
     $('.carousel-cause').owlCarousel({
-        autoplay: true,
+        autoplay: false,
         center: true,
         loop: true,
         items:1,
@@ -283,7 +283,59 @@ carousel();
 
 	$('#appointment_time').timepicker();
 
+$(document).ready(function() {
+    // ... (your existing main.js code for Owl Carousel, etc.) ...
 
+    // JavaScript for the Pop-up Donate Button on Page Load
+    var popupBtnContainer = document.getElementById("popupDonateButtonContainer");
+    var floatingDonateBtn = document.getElementById("floatingDonateBtn");
+    var modal = document.getElementById("qrCodeModal"); // Your existing custom modal
+
+    // Get the <span> element that closes the modal (from your custom modal setup)
+    var span = document.getElementsByClassName("close-button")[0];
+
+    // Function to show the button after a delay
+    setTimeout(function() {
+        if (popupBtnContainer) {
+            popupBtnContainer.style.display = "block"; // Make the container visible
+            // You might want to add a fadeIn effect here with jQuery or CSS transitions
+            // e.g., $(popupBtnContainer).fadeIn(500);
+        }
+    }, 3000); // Show after 3 seconds (3000 milliseconds)
+
+    // When the user clicks the floating donate button, open the modal
+    if (floatingDonateBtn) {
+        floatingDonateBtn.onclick = function(event) {
+            event.preventDefault(); // Prevent default link behavior
+            if (modal) {
+                modal.style.display = "block";
+                $('body').addClass('modal-open-custom'); // Add a class to body to prevent scroll
+            }
+        }
+    }
+
+    // When the user clicks on <span> (x) in the modal, close the modal
+    if (span) {
+        span.onclick = function() {
+            if (modal) {
+                modal.style.display = "none";
+                $('body').removeClass('modal-open-custom'); // Remove the class from body
+            }
+        }
+    }
+
+    // When the user clicks anywhere outside of the modal content, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            if (modal) {
+                modal.style.display = "none";
+                $('body').removeClass('modal-open-custom'); // Remove the class from body
+            }
+        }
+    }
+
+    // ... (end of your existing main.js code) ...
+});
 
 
 })(jQuery);
