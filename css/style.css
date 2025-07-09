@@ -9272,8 +9272,7 @@ textarea.form-control {
     max-width: 500px; /* Maximum width for larger screens */
     position: relative; /* Needed for positioning the close button */
     text-align: center; /* Center text and images inside */
-    animation-name: animatetop;
-    animation-duration: 0.4s
+    
 }
 
 /* The Close Button (the 'x') */
@@ -9372,4 +9371,98 @@ textarea.form-control {
     max-height: 90px; /* Adjust this value as needed for desired size */
     width: auto;     /* Maintain aspect ratio */
     margin-left: 70px; /* Add some space between the menu/donate button and the right logo */
+}
+/* Custom CSS for Cards Section - Vertical Stack on Small, Grid on Large */
+
+/* Container for cards */
+.cards-horizontal-scroll {
+    display: flex;       /* Use flexbox */
+    flex-wrap: wrap;     /* Allows cards to wrap to the next line, causing vertical stacking */
+    justify-content: center; /* Centers cards horizontally when they wrap */
+    gap: 30px;           /* Provides space between cards (both row and column gap) */
+    padding: 0 15px;     /* Adds some padding to the sides of the container on small screens */
+
+    /* Ensure no horizontal scrollbar on small screens as they will stack */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: auto; /* Reverts to default scroll behavior */
+}
+
+/* Individual card styling */
+.cards-horizontal-scroll .cause-entry {
+    flex: 0 0 auto;      /* Prevents cards from shrinking or growing */
+    width: 100%;         /* **Makes cards take full width on small screens, forcing vertical stack** */
+    max-width: 450px;    /* Optional: Limits the maximum width of cards, even when 100% of container */
+}
+
+/* --- Responsive adjustments for larger screens --- */
+
+/* For Small devices (e.g., landscape phones, 576px and up) */
+/* Cards will still stack vertically on 'sm' breakpoint (default `width: 100%` applies) */
+@media (min-width: 576px) {
+    .cards-horizontal-scroll .cause-entry {
+        width: 100%; /* Explicitly keep stacking vertically on 'sm' devices */
+    }
+}
+
+/* For Medium devices (e.g., tablets, 768px and up) */
+@media (min-width: 768px) {
+    .cards-horizontal-scroll {
+        padding: 0; /* Remove side padding on larger screens */
+    }
+    .cards-horizontal-scroll .cause-entry {
+        width: calc(50% - 15px); /* Two cards per row (50% width minus half of the gap) */
+    }
+}
+
+/* For Large devices (e.g., desktops, 992px and up) */
+@media (min-width: 992px) {
+    .cards-horizontal-scroll .cause-entry {
+        width: calc(33.333% - 20px); /* Three cards per row (33.333% width minus two-thirds of the gap) */
+    }
+}
+
+/* For Extra Large devices (e.g., large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .cards-horizontal-scroll .cause-entry {
+        width: calc(33.333% - 20px); /* Four cards per row (25% width minus three-quarters of the gap) */
+    }
+}
+
+/* --- General styling for the cause-entry cards (ensure these are present and correct) --- */
+.cause-entry {
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 5px 20px -10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px; /* Adds vertical spacing between stacked cards */
+}
+
+.cause-entry .img {
+    height: 200px; /* Or adjust to your desired image height */
+    background-size: cover;
+    background-position: center center;
+    border-radius: 5px 5px 0 0;
+}
+
+.cause-entry .text {
+    padding: 20px; /* Adjust padding as needed for inner text */
+}
+
+.cause-entry h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.cause-entry p {
+    color: #808080;
+    line-height: 1.8;
+}
+
+/* Progress bar styling (ensure it's not hidden by other CSS) */
+.custom-progress-success {
+    height: 5px; /* Adjust height as needed */
+    margin-bottom: 10px;
+    background-color: #e9ecef; /* Default background for progress bar */
+}
+.custom-progress-success .progress-bar {
+    background-color: #28a745; /* Green for progress */
 }

@@ -40,36 +40,6 @@
 	// Scrollax
    $.Scrollax();
 
-// In your main.js file, find this section:
-var carousel = function() {
-    $('.carousel-cause').owlCarousel({
-        autoplay: false,
-        center: true,
-        loop: true,
-        items:1,
-        margin: 30,
-        stagePadding:0, // This line will be overridden by responsive settings for 0px
-        nav: true,
-        navText: ['<span class="ion-ios-arrow-back">', '<span class="ion-ios-arrow-forward">'],
-        responsive:{
-            0:{ // This is for mobile screens
-                items: 1,
-                stagePadding: 50 // <--- CHANGE THIS: Add some padding for mobile
-                // Or try 20 or 30px depending on desired look
-            },
-            600:{
-                items: 2,
-                stagePadding: 50
-            },
-            1000:{
-                items: 3,
-                stagePadding: 100
-            }
-        }
-    });
-};
-carousel();
-
 	$('nav .dropdown').hover(function(){
 		var $this = $(this);
 		// 	 timer;
@@ -283,59 +253,7 @@ carousel();
 
 	$('#appointment_time').timepicker();
 
-$(document).ready(function() {
-    // ... (your existing main.js code for Owl Carousel, etc.) ...
 
-    // JavaScript for the Pop-up Donate Button on Page Load
-    var popupBtnContainer = document.getElementById("popupDonateButtonContainer");
-    var floatingDonateBtn = document.getElementById("floatingDonateBtn");
-    var modal = document.getElementById("qrCodeModal"); // Your existing custom modal
-
-    // Get the <span> element that closes the modal (from your custom modal setup)
-    var span = document.getElementsByClassName("close-button")[0];
-
-    // Function to show the button after a delay
-    setTimeout(function() {
-        if (popupBtnContainer) {
-            popupBtnContainer.style.display = "block"; // Make the container visible
-            // You might want to add a fadeIn effect here with jQuery or CSS transitions
-            // e.g., $(popupBtnContainer).fadeIn(500);
-        }
-    }, 3000); // Show after 3 seconds (3000 milliseconds)
-
-    // When the user clicks the floating donate button, open the modal
-    if (floatingDonateBtn) {
-        floatingDonateBtn.onclick = function(event) {
-            event.preventDefault(); // Prevent default link behavior
-            if (modal) {
-                modal.style.display = "block";
-                $('body').addClass('modal-open-custom'); // Add a class to body to prevent scroll
-            }
-        }
-    }
-
-    // When the user clicks on <span> (x) in the modal, close the modal
-    if (span) {
-        span.onclick = function() {
-            if (modal) {
-                modal.style.display = "none";
-                $('body').removeClass('modal-open-custom'); // Remove the class from body
-            }
-        }
-    }
-
-    // When the user clicks anywhere outside of the modal content, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            if (modal) {
-                modal.style.display = "none";
-                $('body').removeClass('modal-open-custom'); // Remove the class from body
-            }
-        }
-    }
-
-    // ... (end of your existing main.js code) ...
-});
 
 
 })(jQuery);
