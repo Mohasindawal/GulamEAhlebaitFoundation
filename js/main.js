@@ -40,34 +40,35 @@
 	// Scrollax
    $.Scrollax();
 
-	var carousel = function() {
-		$('.carousel-cause').owlCarousel({
-			autoplay: true,
-			center: true,
-			loop: true,
-			items:1,
-			margin: 30,
-			stagePadding:0,
-			nav: true,
-			navText: ['<span class="ion-ios-arrow-back">', '<span class="ion-ios-arrow-forward">'],
-			responsive:{
-				0:{
-					items: 1,
-					stagePadding: 0
-				},
-				600:{
-					items: 2,
-					stagePadding: 50
-				},
-				1000:{
-					items: 3,
-					stagePadding: 100
-				}
-			}
-		});
-
-	};
-	carousel();
+// In your main.js file, find this section:
+var carousel = function() {
+    $('.carousel-cause').owlCarousel({
+        autoplay: true,
+        center: true,
+        loop: true,
+        items:1,
+        margin: 30,
+        stagePadding:0, // This line will be overridden by responsive settings for 0px
+        nav: true,
+        navText: ['<span class="ion-ios-arrow-back">', '<span class="ion-ios-arrow-forward">'],
+        responsive:{
+            0:{ // This is for mobile screens
+                items: 1,
+                stagePadding: 50 // <--- CHANGE THIS: Add some padding for mobile
+                // Or try 20 or 30px depending on desired look
+            },
+            600:{
+                items: 2,
+                stagePadding: 50
+            },
+            1000:{
+                items: 3,
+                stagePadding: 100
+            }
+        }
+    });
+};
+carousel();
 
 	$('nav .dropdown').hover(function(){
 		var $this = $(this);
