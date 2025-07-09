@@ -40,6 +40,7 @@
 	// Scrollax
    $.Scrollax();
 
+
 	$('nav .dropdown').hover(function(){
 		var $this = $(this);
 		// 	 timer;
@@ -254,7 +255,103 @@
 	$('#appointment_time').timepicker();
 
 
+$(document).ready(function() {
+    // ... (your existing main.js code for Owl Carousel, etc.) ...
 
+    // JavaScript for the Pop-up Donate Button on Page Load
+    var popupBtnContainer = document.getElementById("popupDonateButtonContainer");
+    var floatingDonateBtn = document.getElementById("floatingDonateBtn");
+    var modal = document.getElementById("qrCodeModal"); // Your existing custom modal
+
+    // Get the <span> element that closes the modal (from your custom modal setup)
+    var span = document.getElementsByClassName("close-button")[0];
+
+    // Function to show the button after a delay
+    setTimeout(function() {
+        if (popupBtnContainer) {
+            popupBtnContainer.style.display = "block"; // Make the container visible
+            // You might want to add a fadeIn effect here with jQuery or CSS transitions
+            // e.g., $(popupBtnContainer).fadeIn(500);
+        }
+    }, 3000); // Show after 3 seconds (3000 milliseconds)
+
+    // When the user clicks the floating donate button, open the modal
+    if (floatingDonateBtn) {
+        floatingDonateBtn.onclick = function(event) {
+            event.preventDefault(); // Prevent default link behavior
+            if (modal) {
+                modal.style.display = "block";
+                $('body').addClass('modal-open-custom'); // Add a class to body to prevent scroll
+            }
+        }
+    }
+
+    // When the user clicks on <span> (x) in the modal, close the modal
+    if (span) {
+        span.onclick = function() {
+            if (modal) {
+                modal.style.display = "none";
+                $('body').removeClass('modal-open-custom'); // Remove the class from body
+            }
+        }
+    }
+
+    // When the user clicks anywhere outside of the modal content, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            if (modal) {
+                modal.style.display = "none";
+                $('body').removeClass('modal-open-custom'); // Remove the class from body
+            }
+        }
+    }
+
+    // ... (end of your existing main.js code) ...
+});
+
+// This ensures the script runs only after the entire page (DOM) is loaded.
+$(document).ready(function() {
+
+    // Get the modal element by its ID
+    var modal = $("#qrCodeModal");
+
+    // Get the "Donate Now" button by its ID
+    var btn = $("#donateBtn");
+
+    // Get the close button (the 'x') by its class
+    var span = $(".close-button");
+
+    // --- Event Listeners ---
+
+    // When the user clicks the "Donate Now" button, open the modal
+    btn.on("click", function(event) {
+        event.preventDefault(); // This stops the page from jumping to the top of the screen
+        modal.css("display", "flex"); // Change display to 'flex' to make the modal visible and centered
+    });
+
+    // When the user clicks on the close button (x), close the modal
+    span.on("click", function() {
+        modal.css("display", "none"); // Hide the modal
+    });
+
+    // When the user clicks anywhere outside of the modal content, close it
+    $(window).on("click", function(event) {
+        // Check if the click occurred directly on the modal background itself, not on its content
+        if ($(event.target).is(modal)) {
+            modal.css("display", "none"); // Hide the modal
+        }
+    });
+
+    // Optional: Allow closing with the Escape key
+    $(document).on('keydown', function(event) {
+        if (event.key === "Escape" || event.keyCode === 27) { // Check for Escape key press
+            if (modal.css("display") === "flex") { // Only close if modal is currently open
+                modal.css("display", "none");
+            }
+        }
+    });
+
+}); // End of $(document).ready(function()
 
 })(jQuery);
 
