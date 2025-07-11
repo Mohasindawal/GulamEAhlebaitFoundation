@@ -215,143 +215,168 @@
 	OnePageNav();
 
 
-	// magnific popup
-	$('.image-popup').magnificPopup({
+	// --- KEEP YOUR EXISTING MAGNIFIC POPUP, DATEPICKER, AND TIMEPICKER CODE HERE ---
+// (These are generally fine as they are, outside or at the very top of your document.ready)
+$('.image-popup').magnificPopup({
     type: 'image',
     closeOnContentClick: true,
     closeBtnInside: false,
     fixedContentPos: true,
     mainClass: 'mfp-no-margins mfp-with-zoom', // class to remove default margin from left and right side
-     gallery: {
-      enabled: true,
-      navigateByImgClick: true,
-      preload: [0,1] // Will preload 0 - before current, and 1 after the current image
+    gallery: {
+        enabled: true,
+        navigateByImgClick: true,
+        preload: [0,1] // Will preload 0 - before current, and 1 after the current image
     },
     image: {
-      verticalFit: true
+        verticalFit: true
     },
     zoom: {
-      enabled: true,
-      duration: 300 // don't foget to change the duration also in CSS
+        enabled: true,
+        duration: 300 // don't foget to change the duration also in CSS
     }
-  });
+});
 
-  $('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
+$('.popup-youtube, .popup-vimeo, .popup-gmaps').magnificPopup({
     disableOn: 700,
     type: 'iframe',
     mainClass: 'mfp-fade',
     removalDelay: 160,
     preloader: false,
-
     fixedContentPos: false
-  });
-
-
-  $('#appointment_date').datepicker({
-	  'format': 'm/d/yyyy',
-	  'autoclose': true
-	});
-
-	$('#appointment_time').timepicker();
-
-
-$(document).ready(function() {
-    // ... (your existing main.js code for Owl Carousel, etc.) ...
-
-    // JavaScript for the Pop-up Donate Button on Page Load
-    var popupBtnContainer = document.getElementById("popupDonateButtonContainer");
-    var floatingDonateBtn = document.getElementById("floatingDonateBtn");
-    var modal = document.getElementById("qrCodeModal"); // Your existing custom modal
-
-    // Get the <span> element that closes the modal (from your custom modal setup)
-    var span = document.getElementsByClassName("close-button")[0];
-
-    // Function to show the button after a delay
-    setTimeout(function() {
-        if (popupBtnContainer) {
-            popupBtnContainer.style.display = "block"; // Make the container visible
-            // You might want to add a fadeIn effect here with jQuery or CSS transitions
-            // e.g., $(popupBtnContainer).fadeIn(500);
-        }
-    }, 3000); // Show after 3 seconds (3000 milliseconds)
-
-    // When the user clicks the floating donate button, open the modal
-    if (floatingDonateBtn) {
-        floatingDonateBtn.onclick = function(event) {
-            event.preventDefault(); // Prevent default link behavior
-            if (modal) {
-                modal.style.display = "block";
-                $('body').addClass('modal-open-custom'); // Add a class to body to prevent scroll
-            }
-        }
-    }
-
-    // When the user clicks on <span> (x) in the modal, close the modal
-    if (span) {
-        span.onclick = function() {
-            if (modal) {
-                modal.style.display = "none";
-                $('body').removeClass('modal-open-custom'); // Remove the class from body
-            }
-        }
-    }
-
-    // When the user clicks anywhere outside of the modal content, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            if (modal) {
-                modal.style.display = "none";
-                $('body').removeClass('modal-open-custom'); // Remove the class from body
-            }
-        }
-    }
-
-    // ... (end of your existing main.js code) ...
 });
 
-// This ensures the script runs only after the entire page (DOM) is loaded.
+$('#appointment_date').datepicker({
+    'format': 'm/d/yyyy',
+    'autoclose': true
+});
+
+$('#appointment_time').timepicker();
+// --- END OF EXISTING CODE ---
+
+
+// --- START OF THE MAIN CONSOLIDATED DOCUMENT READY FUNCTION ---
 $(document).ready(function() {
 
-    // Get the modal element by its ID
-    var modal = $("#qrCodeModal");
+    // --- Custom QR Code Modal Logic ---
+    // Get references to elements once for efficiency
+    var qrCodeModal = document.getElementById("qrCodeModal");
+    var closeButton = document.getElementsByClassName("close-button")[0];
+    var popupDonateButtonContainer = document.getElementById("popupDonateButtonContainer"); // The container for the floating button
 
-    // Get the "Donate Now" button by its ID
-    var btn = $("#donateBtn");
+    // Function to open the modal
+    function openQrCodeModal() {
+        if (qrCodeModal) {
+            qrCodeModal.style.display = "block"; // Make sure your modal CSS uses display: block for showing
+            $('body').addClass('modal-open-custom'); // Add class to body to prevent scroll
 
-    // Get the close button (the 'x') by its class
-    var span = $(".close-button");
+            // ACTION: Hide the floating donate button container when modal opens
+            if (popupDonateButtonContainer) {
+                popupDonateButtonContainer.style.display = "none";
+            }
+        }
+    }
 
-    // --- Event Listeners ---
+    // Function to close the modal
+    function closeQrCodeModal() {
+        if (qrCodeModal) {
+            qrCodeModal.style.display = "none";
+            $('body').removeClass('modal-open-custom'); // Remove class from body
 
-    // When the user clicks the "Donate Now" button, open the modal
-    btn.on("click", function(event) {
-        event.preventDefault(); // This stops the page from jumping to the top of the screen
-        modal.css("display", "flex"); // Change display to 'flex' to make the modal visible and centered
-    });
+            // ACTION: Show the floating donate button container when modal closes
+            // Only show if it's supposed to be visible on the current screen size (i.e., not hidden by Bootstrap's d-lg-none)
+            if (popupDonateButtonContainer && window.innerWidth < 992) { // The <992px breakpoint aligns with Bootstrap's d-lg-none
+                popupDonateButtonContainer.style.display = "block";
+            }
+        }
+    }
 
-    // When the user clicks on the close button (x), close the modal
-    span.on("click", function() {
-        modal.css("display", "none"); // Hide the modal
-    });
+    // --- Attach Click Listeners to ALL Donate Buttons ---
+    // Using addEventListener for better practice and consistency
 
-    // When the user clicks anywhere outside of the modal content, close it
-    $(window).on("click", function(event) {
-        // Check if the click occurred directly on the modal background itself, not on its content
-        if ($(event.target).is(modal)) {
-            modal.css("display", "none"); // Hide the modal
+    // Navbar Donate Button (on all pages)
+    var navbarDonateBtn = document.getElementById("navbarDonateBtn");
+    if (navbarDonateBtn) {
+        navbarDonateBtn.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link behavior (like jumping to top)
+            openQrCodeModal(); // Call our common open function
+        });
+    }
+
+    // Floating Pop-up Donate Button (on all pages)
+    var floatingDonateBtn = document.getElementById("floatingDonateBtn");
+    if (floatingDonateBtn) {
+        floatingDonateBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            openQrCodeModal(); // Call our common open function
+        });
+    }
+
+    // Hero Section Donate Button (if you have one, e.g., on index.html)
+    var heroDonateButton = document.getElementById("heroDonateButton");
+    if (heroDonateButton) {
+        heroDonateButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            openQrCodeModal();
+        });
+    }
+
+    // Generic Donate Button (if you have any other with ID "donateBtn")
+    var genericDonateBtn = document.getElementById("donateBtn"); // From your old script, if this button exists
+    if (genericDonateBtn) {
+        genericDonateBtn.addEventListener('click', function(event) {
+            event.preventDefault();
+            openQrCodeModal();
+        });
+    }
+
+
+    // --- Modal Close Listeners ---
+
+    // When the user clicks on the <span> (x) close button inside the modal
+    if (closeButton) {
+        closeButton.addEventListener('click', closeQrCodeModal); // Call our common close function
+    }
+
+    // When the user clicks anywhere outside of the modal content (on the overlay)
+    window.addEventListener('click', function(event) {
+        if (event.target == qrCodeModal) { // Check if the click was directly on the modal background
+            closeQrCodeModal(); // Call our common close function
         }
     });
 
     // Optional: Allow closing with the Escape key
     $(document).on('keydown', function(event) {
-        if (event.key === "Escape" || event.keyCode === 27) { // Check for Escape key press
-            if (modal.css("display") === "flex") { // Only close if modal is currently open
-                modal.css("display", "none");
+        if (event.key === "Escape" || event.keyCode === 27) { // Check for Escape key press (key for modern, keyCode for older)
+            if (qrCodeModal && qrCodeModal.style.display === "block") { // Only close if modal is currently open
+                closeQrCodeModal(); // Call our consistent close function
             }
         }
     });
 
-}); // End of $(document).ready(function()
+
+    // --- Pop-up Donate Button Initial Display Logic ---
+
+    // Ensure the floating button is hidden by default when script loads, if not already by CSS.
+    // Ideally, #popupDonateButtonContainer should have `display: none;` in your CSS for initial state.
+    if (popupDonateButtonContainer) {
+         popupDonateButtonContainer.style.display = "none";
+    }
+
+    // Show the floating button after a delay (e.g., 3 seconds)
+    // Only if the screen size is small (less than 992px) AND the modal is NOT already open
+    setTimeout(function() {
+        if (popupDonateButtonContainer && window.innerWidth < 992) {
+            // Check if the modal is currently NOT open before showing the floating button
+            if (qrCodeModal && qrCodeModal.style.display !== "block") {
+                popupDonateButtonContainer.style.display = "block";
+                // Optional: You can add jQuery's fadeIn effect here for a smoother appearance:
+                // $(popupDonateButtonContainer).fadeIn(500);
+            }
+        }
+    }, 3000); // 3000 milliseconds = 3 seconds delay
+
+}); // --- END OF THE MAIN CONSOLIDATED DOCUMENT READY FUNCTION ---
 
 })(jQuery);
 
