@@ -9351,7 +9351,7 @@ textarea.form-control {
 
 /* Styling for the Navbar Logo Image */
 .navbar-logo {
-    height: 100px; /* Try increasing this value */
+    height: 80px; /* Try increasing this value */
     width: auto;
     vertical-align: middle;
     max-width: 100%;
@@ -9369,7 +9369,7 @@ textarea.form-control {
 }
 
 .navbar-logo-right {
-    max-height: 90px; /* Adjust this value as needed for desired size */
+    max-height: 80px; /* Adjust this value as needed for desired size */
     width: auto;     /* Maintain aspect ratio */
     margin-left: 70px; /* Add some space between the menu/donate button and the right logo */
 }
