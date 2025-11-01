@@ -9473,3 +9473,10 @@ textarea.form-control {
 .icon.icon-envelope{
   padding-right: 15px;
 }
+.block-20 {
+  aspect-ratio: 4 / 3; /* keeps consistent proportions */
+  background-size: cover;
+  background-position: center;
+  display: block;
+  border-radius: 10px;
+}
